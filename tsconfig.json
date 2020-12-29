@@ -21,8 +21,9 @@
     ],
     "paths": {
       "bricks": [
-        "dist/bricks/bricks",
-        "dist/bricks"
+        "projects/bricks/src/src.ts"
+//        "dist/bricks/bricks",
+//        "dist/bricks"
       ]
     }
   },
