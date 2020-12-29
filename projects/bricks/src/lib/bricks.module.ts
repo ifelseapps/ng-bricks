@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BricksComponent } from './bricks.component';
+import { ComboboxComponent } from './components/combobox/combobox.component';
 
 
 
 @NgModule({
-  declarations: [BricksComponent],
+  declarations: [BricksComponent, ComboboxComponent],
   imports: [
   ],
-  exports: [BricksComponent]
+  exports: [BricksComponent, ComboboxComponent]
 })
 export class BricksModule { }
