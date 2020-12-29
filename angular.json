@@ -125,6 +125,46 @@
           }
         }
       }
+    },
+    "bricks": {
+      "projectType": "library",
+      "root": "projects/bricks",
+      "sourceRoot": "projects/bricks/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/bricks/tsconfig.lib.json",
+            "project": "projects/bricks/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bricks/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bricks/src/test.ts",
+            "tsConfig": "projects/bricks/tsconfig.spec.json",
+            "karmaConfig": "projects/bricks/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bricks/tsconfig.lib.json",
+              "projects/bricks/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ng-bricks"
