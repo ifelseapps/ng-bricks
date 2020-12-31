@@ -1,1 +1,16 @@
-<p>combobox works!</p>
+<div class="wrapper">
+  <div tabindex="-1" cdkOverlayOrigin #label #trigger="cdkOverlayOrigin">Trigger</div>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="b-combobox-backdrop"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isVisiblePopup$ | async"
+>
+  <div class="b-popup">
+    Overlay inner
+    <input type="text">
+  </div>
+</ng-template>
