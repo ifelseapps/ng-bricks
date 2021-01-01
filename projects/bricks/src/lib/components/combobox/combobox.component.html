@@ -18,7 +18,7 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isVisiblePopup$ | async"
 >
-  <div class="b-popup">
+  <div class="b-popup" cdkTrapFocus>
     <div>Overlay inner</div>
     <div>
       <input type="text">
