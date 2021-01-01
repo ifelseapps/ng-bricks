@@ -34,9 +34,19 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     const backdropClick$ = this.popupRef.backdropClick
       .pipe(mapTo(false));
 
-    backdropClick$.subscribe((x: any) => console.log(x));
-
     this.isVisiblePopup$ = merge(triggerFocus$, backdropClick$);
+
+    const subscription = this.isVisiblePopup$
+      .pipe(filter(Boolean))
+      .subscribe(
+        () => setTimeout(() => {
+          const input = this.popupRef.overlayRef.overlayElement.querySelector('input');
+          if (input) {
+            input.focus();
+          }
+        }, 0)
+      );
+    this.masterSubscription.add(subscription);
   }
 
   ngOnDestroy(): void {
