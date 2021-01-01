@@ -1,5 +1,14 @@
 <div class="wrapper">
-  <div tabindex="-1" cdkOverlayOrigin #label #trigger="cdkOverlayOrigin">Trigger</div>
+  <div
+    class="b-combobox-label"
+    [class.active] = "isVisiblePopup$ | async"
+    tabindex="-1"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    #label
+  >
+    Trigger
+  </div>
 </div>
 
 <ng-template

@@ -1,3 +1,13 @@
+.b-combobox-label {
+  &:focus {
+    outline: none;
+  }
+
+  &.active {
+    font-weight: 700;
+  }
+}
+
 .b-combobox-backdrop {
   position: absolute;
   top: 0;
