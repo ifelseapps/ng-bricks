@@ -4,10 +4,12 @@ import { ComboboxComponent } from './components/combobox/combobox.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
+import { ItemsListComponent } from './components/combobox/components/items-list/items-list.component';
+import { ItemComponent } from './components/combobox/components/item/item.component';
 
 
 @NgModule({
-  declarations: [BricksComponent, ComboboxComponent],
+  declarations: [BricksComponent, ComboboxComponent, ItemsListComponent, ItemComponent],
   imports: [
     OverlayModule,
     CommonModule,

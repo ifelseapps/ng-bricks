@@ -5,7 +5,7 @@ import { filter, mapTo } from 'rxjs/operators';
 import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 
 @Component({
-  selector: 'lib-combobox',
+  selector: 'b-combobox',
   templateUrl: './combobox.component.html',
   styleUrls: ['./combobox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +21,11 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   popupRef: CdkConnectedOverlay;
 
   isVisiblePopup$: Observable<boolean>;
+  items = [
+    'item 1',
+    'item 2',
+    'item 3',
+  ];
 
   private masterSubscription = new Subscription();
 

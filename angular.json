@@ -130,7 +130,7 @@
       "projectType": "library",
       "root": "projects/bricks",
       "sourceRoot": "projects/bricks/src",
-      "prefix": "lib",
+      "prefix": "b",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

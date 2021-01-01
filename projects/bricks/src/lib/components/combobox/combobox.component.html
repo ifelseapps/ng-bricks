@@ -21,7 +21,12 @@
   <div class="b-popup" cdkTrapFocus>
     <div>Overlay inner</div>
     <div>
-      <input type="text">
+      <input
+        type="text"
+        (keydown.arrowDown)="itemsList.next()"
+        (keydown.arrowUp)="itemsList.prev()"
+      >
     </div>
+    <b-items-list [items]="items" #itemsList></b-items-list>
   </div>
 </ng-template>
