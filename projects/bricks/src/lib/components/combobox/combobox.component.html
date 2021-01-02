@@ -2,12 +2,12 @@
   <div
     class="b-combobox-label"
     [class.active] = "isVisiblePopup$ | async"
-    tabindex="-1"
+    tabindex="0"
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
     #label
   >
-    Trigger
+    {{((selectedItem$ | async)?.name) || 'Placeholder'}}
   </div>
 </div>
 
@@ -25,8 +25,14 @@
         type="text"
         (keydown.arrowDown)="itemsList.next()"
         (keydown.arrowUp)="itemsList.prev()"
+        (keydown.enter)="onSelect()"
       >
     </div>
-    <b-items-list [items]="items" #itemsList></b-items-list>
+    <b-items-list
+      [items]="items"
+      (changeActiveItem)="onChangeActiveItem($event)"
+      (selectItem)="onSelect($event)"
+      #itemsList
+    ></b-items-list>
   </div>
 </ng-template>
