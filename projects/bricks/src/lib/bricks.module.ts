@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ItemsListComponent } from './components/combobox/components/items-list/items-list.component';
 import { ItemComponent } from './components/combobox/components/item/item.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ItemComponent } from './components/combobox/components/item/item.compon
   imports: [
     OverlayModule,
     CommonModule,
-    A11yModule
+    A11yModule,
+    ReactiveFormsModule
   ],
   exports: [BricksComponent, ComboboxComponent]
 })

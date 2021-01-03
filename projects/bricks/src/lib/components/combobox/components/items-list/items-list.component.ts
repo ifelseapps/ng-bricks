@@ -5,7 +5,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit, Output,
+  OnChanges, OnDestroy,
+  OnInit,
+  Output,
   QueryList,
   ViewChildren
 } from '@angular/core';
@@ -19,8 +21,11 @@ import { IItem } from '../../models/item';
   styleUrls: ['./items-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsListComponent implements OnInit, AfterViewInit {
-  constructor(private _cdr: ChangeDetectorRef) { }
+export class ItemsListComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  constructor() { }
+
+  @Input()
+  filteredItems: IItem[];
 
   @Input()
   items: IItem[];
@@ -52,13 +57,24 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     this.initKeyManager();
   }
 
+  ngOnChanges(): void {
+    if (this._keyManager) {
+      const [item] = this.filteredItems;
+      const index = this.items.findIndex(i => i.value === item.value);
+      this._keyManager.setActiveItem(index);
+      this.onChangeActiveItem(item);
+    }
+  }
+
+  ngOnDestroy(): void {
+  }
+
   next(): void {
     this._keyManager.setNextItemActive();
     const item = this._keyManager.activeItem?.item;
     if (item) {
       this.onChangeActiveItem(item);
     }
-    this._cdr.detectChanges();
   }
 
   prev(): void {
@@ -67,7 +83,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     if (item) {
       this.onChangeActiveItem(item);
     }
-    this._cdr.detectChanges();
   }
 
   onChangeActiveItem(item: IItem): void {
@@ -82,7 +97,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
     const index = this.selected ? this.items.findIndex(i => i.value === this.selected.value) : 0;
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
     this._keyManager.setActiveItem(index);
-    this.onChangeActiveItem(this.selected || this.items[0]);
-    this._cdr.detectChanges();
+    this.onChangeActiveItem(this.selected || this.filteredItems[0]);
   }
 }

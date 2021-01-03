@@ -33,6 +33,10 @@ export class ItemComponent implements OnInit, Highlightable {
     this.setActive(false);
   }
 
+  getLabel(): string {
+    return this.item.name;
+  }
+
   private setActive(value: boolean): void {
     this._active = value;
     this._cdr.detectChanges();

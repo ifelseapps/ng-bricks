@@ -16,6 +16,7 @@
     <div>
       <input
         type="text"
+        [formControl]="searchField"
         (keydown.arrowDown)="itemsList.next()"
         (keydown.arrowUp)="itemsList.prev()"
         (keydown.enter)="onSelect()"
@@ -23,6 +24,7 @@
     </div>
     <b-items-list
       [items]="items"
+      [filteredItems]="filteredItems$ | async"
       [selected]="selectedItem$ | async"
       (changeActiveItem)="onChangeActiveItem($event)"
       (selectItem)="onSelect($event)"

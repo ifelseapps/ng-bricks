@@ -1,6 +1,6 @@
-<ul>
+<ul class="b-combobox-list">
   <li
-    *ngFor="let item of items"
+    *ngFor="let item of filteredItems"
     (click)="onSelect(item)"
     [item]="item"
     b-item
