@@ -25,6 +25,9 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   @Input()
   items: IItem[];
 
+  @Input()
+  selected: IItem;
+
   /**
    * Событие вызывается при навигации по списку
    */
@@ -76,10 +79,10 @@ export class ItemsListComponent implements OnInit, AfterViewInit {
   }
 
   private initKeyManager(): void {
-    const [item] = this.items;
+    const index = this.selected ? this.items.findIndex(i => i.value === this.selected.value) : 0;
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
-    this._keyManager.setFirstItemActive();
-    this.onChangeActiveItem(item);
+    this._keyManager.setActiveItem(index);
+    this.onChangeActiveItem(this.selected || this.items[0]);
     this._cdr.detectChanges();
   }
 }

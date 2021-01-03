@@ -23,6 +23,7 @@
     </div>
     <b-items-list
       [items]="items"
+      [selected]="selectedItem$ | async"
       (changeActiveItem)="onChangeActiveItem($event)"
       (selectItem)="onSelect($event)"
       #itemsList
