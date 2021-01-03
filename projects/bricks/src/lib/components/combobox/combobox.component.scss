@@ -1,4 +1,7 @@
+@import '~@angular/cdk/overlay-prebuilt.css';
+
 .b-combobox-label {
+  display: inline-flex;
   &:focus {
     outline: none;
   }
@@ -18,5 +21,7 @@
 
 .b-popup {
   position: relative;
+  width: 100%;
   z-index: 1;
+  background: beige;
 }

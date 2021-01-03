@@ -1,9 +1,21 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild, ViewContainerRef,
+  ViewEncapsulation
+} from '@angular/core';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
-import { CdkConnectedOverlay } from '@angular/cdk/overlay';
+import { CdkConnectedOverlay, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { IItem } from './models/item';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'b-combobox',
@@ -13,7 +25,7 @@ import { IItem } from './models/item';
   encapsulation: ViewEncapsulation.None,
 })
 export class ComboboxComponent implements OnInit, OnDestroy {
-  constructor(private focusMonitor: FocusMonitor) { }
+  constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef) { }
 
   @Output()
   selectItem = new EventEmitter<string>();
@@ -21,8 +33,8 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   @ViewChild('label', { static: true })
   labelRef: ElementRef<HTMLElement>;
 
-  @ViewChild(CdkConnectedOverlay, { static: true })
-  popupRef: CdkConnectedOverlay;
+  @ViewChild('popup', { static: true })
+  popupRef: TemplateRef<any>;
 
   isVisiblePopup$: Observable<boolean>;
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
@@ -34,30 +46,9 @@ export class ComboboxComponent implements OnInit, OnDestroy {
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
+  private _overlayRef: OverlayRef;
 
   ngOnInit(): void {
-    const triggerFocus$ = this.focusMonitor.monitor(this.labelRef.nativeElement)
-      .pipe(
-        filter(origin => Boolean(origin)),
-        mapTo(true),
-      );
-
-    const backdropClick$ = this.popupRef.backdropClick
-      .pipe(mapTo(false));
-
-    this.isVisiblePopup$ = merge(triggerFocus$, backdropClick$);
-
-    const subscription = this.isVisiblePopup$
-      .pipe(filter(Boolean))
-      .subscribe(
-        () => setTimeout(() => {
-          const input = this.popupRef.overlayRef.overlayElement.querySelector('input');
-          if (input) {
-            input.focus();
-          }
-        }, 0)
-      );
-    this.masterSubscription.add(subscription);
   }
 
   ngOnDestroy(): void {
@@ -77,8 +68,47 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     }
   }
 
+  openPopup(): void {
+    const positionStrategy = this._overlay.position()
+      .flexibleConnectedTo(this.labelRef.nativeElement)
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top'
+        },
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        }
+      ]);
+
+    const config = new OverlayConfig({
+      width: 300,
+      hasBackdrop: true,
+      backdropClass: 'b-combobox-backdrop',
+      positionStrategy,
+      scrollStrategy: this._overlay.scrollStrategies.reposition(),
+    });
+    this._overlayRef = this._overlay.create(config);
+
+    // TODO: отписываться от подписок
+    this._overlayRef.backdropClick().subscribe(() => this._overlayRef.dispose());
+    this._overlayRef.attachments().subscribe(() => {
+      const searchInput = this._overlayRef.overlayElement.querySelector('input');
+      if (searchInput) {
+        searchInput.focus();
+      }
+    });
+
+    this._overlayRef.attach(new TemplatePortal(this.popupRef, this._viewContainerRef));
+  }
+
   closePopup(): void {
-    this.popupRef.overlayRef.dispose();
+    this._overlayRef.dispose();
   }
 
   private setSelectedItem(item: IItem): void {

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BricksModule } from 'bricks';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { BricksModule } from 'bricks';
     BrowserModule,
     AppRoutingModule,
     BricksModule,
+    CdkScrollableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

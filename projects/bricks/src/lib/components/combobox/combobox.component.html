@@ -1,23 +1,16 @@
-<div class="wrapper">
+<div class="wrapper" cdk-scrollable>
   <div
     class="b-combobox-label"
     [class.active] = "isVisiblePopup$ | async"
     tabindex="0"
-    cdkOverlayOrigin
-    #trigger="cdkOverlayOrigin"
+    (click)="openPopup()"
     #label
   >
     {{((selectedItem$ | async)?.name) || 'Placeholder'}}
   </div>
 </div>
 
-<ng-template
-  cdkConnectedOverlay
-  cdkConnectedOverlayHasBackdrop
-  cdkConnectedOverlayBackdropClass="b-combobox-backdrop"
-  [cdkConnectedOverlayOrigin]="trigger"
-  [cdkConnectedOverlayOpen]="isVisiblePopup$ | async"
->
+<ng-template #popup>
   <div class="b-popup" cdkTrapFocus>
     <div>Overlay inner</div>
     <div>
