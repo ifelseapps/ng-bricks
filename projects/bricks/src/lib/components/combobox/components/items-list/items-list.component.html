@@ -1,6 +1,6 @@
 <ul class="b-combobox-list">
   <li
-    *ngFor="let item of filteredItems"
+    *ngFor="let item of items | filter:'name':searchPhrase;"
     (click)="onSelect(item)"
     [item]="item"
     b-item

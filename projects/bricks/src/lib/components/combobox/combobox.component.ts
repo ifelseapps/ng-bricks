@@ -7,13 +7,12 @@ import {
   OnInit,
   Output,
   TemplateRef,
-  ViewChild, ViewContainerRef,
+  ViewChild,
+  ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
-import { filter, map, mapTo } from 'rxjs/operators';
-import { CdkConnectedOverlay, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { FormControl } from '@angular/forms';
@@ -65,27 +64,12 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   ];
 
   searchField = new FormControl('');
-  filteredItems$ = new BehaviorSubject<IItem[]>([]);
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
   private _overlayRef: OverlayRef;
 
   ngOnInit(): void {
-    this.filteredItems$.next(this.items);
-
-    const items$ = of(this.items);
-    const subscription = combineLatest([items$, this.searchField.valueChanges])
-      .pipe(map(([items, searchPhrase]: [IItem[], string]) => {
-        if (!searchPhrase.trim().length) {
-          return items;
-        }
-        return items.filter(i => i.name.toLowerCase().includes(searchPhrase.toLowerCase()));
-      }))
-      .subscribe(items => {
-        this.filteredItems$.next(items);
-      });
-    this.masterSubscription.add(subscription);
   }
 
   ngOnDestroy(): void {

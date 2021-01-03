@@ -1,11 +1,10 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
-  OnChanges, OnDestroy,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -14,6 +13,7 @@ import {
 import { ItemComponent } from '../item/item.component';
 import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { IItem } from '../../models/item';
+import { debounce, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'b-items-list',
@@ -21,17 +21,17 @@ import { IItem } from '../../models/item';
   styleUrls: ['./items-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsListComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  constructor() { }
-
-  @Input()
-  filteredItems: IItem[];
+export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(private _cdr: ChangeDetectorRef) { }
 
   @Input()
   items: IItem[];
 
   @Input()
   selected: IItem;
+
+  @Input()
+  searchPhrase: string;
 
   /**
    * Событие вызывается при навигации по списку
@@ -55,15 +55,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   ngAfterViewInit(): void {
     this.initKeyManager();
-  }
-
-  ngOnChanges(): void {
-    if (this._keyManager) {
-      const [item] = this.filteredItems;
-      const index = this.items.findIndex(i => i.value === item.value);
-      this._keyManager.setActiveItem(index);
-      this.onChangeActiveItem(item);
-    }
   }
 
   ngOnDestroy(): void {
@@ -97,6 +88,16 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnChanges, OnD
     const index = this.selected ? this.items.findIndex(i => i.value === this.selected.value) : 0;
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
     this._keyManager.setActiveItem(index);
-    this.onChangeActiveItem(this.selected || this.filteredItems[0]);
+    this.onChangeActiveItem(this.selected || this.items[0]);
+
+    this.children.changes.subscribe(items => {
+      if (!items.first) {
+        return;
+      }
+      const { item } = (items.first as ItemComponent);
+      this._keyManager.setActiveItem(items.first);
+      this.onChangeActiveItem(item);
+      this._cdr.detectChanges();
+    });
   }
 }

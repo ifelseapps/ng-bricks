@@ -24,7 +24,7 @@
     </div>
     <b-items-list
       [items]="items"
-      [filteredItems]="filteredItems$ | async"
+      [searchPhrase]="searchField.value"
       [selected]="selectedItem$ | async"
       (changeActiveItem)="onChangeActiveItem($event)"
       (selectItem)="onSelect($event)"
