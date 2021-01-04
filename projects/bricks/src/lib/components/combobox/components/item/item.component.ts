@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Highlightable } from '@angular/cdk/a11y';
 import { IItem } from '../../models/item';
 
@@ -10,7 +19,7 @@ import { IItem } from '../../models/item';
   encapsulation: ViewEncapsulation.None,
 })
 export class ItemComponent implements OnInit, Highlightable {
-  constructor(private _cdr: ChangeDetectorRef) { }
+  constructor(private _cdr: ChangeDetectorRef, private _elementRef: ElementRef<HTMLLIElement>) { }
 
   @Input()
   item: IItem;
@@ -27,6 +36,7 @@ export class ItemComponent implements OnInit, Highlightable {
 
   setActiveStyles(): void {
     this.setActive(true);
+    this._elementRef.nativeElement.scrollIntoView(false);
   }
 
   setInactiveStyles(): void {
