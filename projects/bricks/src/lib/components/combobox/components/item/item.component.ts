@@ -36,7 +36,9 @@ export class ItemComponent implements OnInit, Highlightable {
 
   setActiveStyles(): void {
     this.setActive(true);
-    this._elementRef.nativeElement.scrollIntoView(false);
+    this._elementRef.nativeElement.scrollIntoView({
+      block: 'center'
+    });
   }
 
   setInactiveStyles(): void {
