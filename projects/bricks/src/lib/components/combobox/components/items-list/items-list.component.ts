@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -13,7 +14,6 @@ import {
 import { ItemComponent } from '../item/item.component';
 import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { IItem } from '../../models/item';
-import { debounce, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'b-items-list',
@@ -85,6 +85,16 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initKeyManager(): void {
+    this.children.changes.subscribe((children: QueryList<ItemComponent>) => {
+      if (!children.first) {
+        return;
+      }
+      const item = children.find(c => c.item.value === this.selected.value) || children.first;
+      this._keyManager.setActiveItem(item);
+      this.onChangeActiveItem(item.item);
+      this._cdr.detectChanges();
+    });
+
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
     this.onChangeActiveItem(this.selected || this.items[0]);
     if (this.selected) {
@@ -93,15 +103,5 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this._keyManager.setFirstItemActive();
-
-    this.children.changes.subscribe(items => {
-      if (!items.first) {
-        return;
-      }
-      const { item } = (items.first as ItemComponent);
-      this._keyManager.setActiveItem(items.first);
-      this.onChangeActiveItem(item);
-      this._cdr.detectChanges();
-    });
   }
 }
