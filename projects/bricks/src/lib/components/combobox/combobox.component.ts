@@ -120,6 +120,7 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     const subscriptionOverlayAttachments = this._overlayRef.attachments().subscribe(() => {
       const searchInput = this._overlayRef.overlayElement.querySelector('input');
       if (searchInput) {
+        this.searchField.setValue('');
         searchInput.focus();
       }
     });

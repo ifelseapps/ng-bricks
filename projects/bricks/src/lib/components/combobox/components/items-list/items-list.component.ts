@@ -85,10 +85,14 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initKeyManager(): void {
-    const index = this.selected ? this.items.findIndex(i => i.value === this.selected.value) : 0;
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
-    this._keyManager.setActiveItem(index);
     this.onChangeActiveItem(this.selected || this.items[0]);
+    if (this.selected) {
+      const item = this.children.find(c => c.item.value === this.selected.value) || this.children.first;
+      this._keyManager.setActiveItem(item);
+      return;
+    }
+    this._keyManager.setFirstItemActive();
 
     this.children.changes.subscribe(items => {
       if (!items.first) {
