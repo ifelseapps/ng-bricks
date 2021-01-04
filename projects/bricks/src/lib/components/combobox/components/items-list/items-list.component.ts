@@ -89,7 +89,7 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!children.first) {
         return;
       }
-      const item = children.find(c => c.item.value === this.selected.value) || children.first;
+      const item = this.selected ? children.find(c => c.item.value === this.selected.value) || children.first : children.first;
       this._keyManager.setActiveItem(item);
       this.onChangeActiveItem(item.item);
       this._cdr.detectChanges();
