@@ -127,6 +127,7 @@ export class ComboboxComponent implements OnInit, OnDestroy {
 
   closePopup(): void {
     this._overlayRef.dispose();
+    this.labelRef.nativeElement.focus();
   }
 
   private setSelectedItem(item: IItem): void {

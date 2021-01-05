@@ -1,9 +1,10 @@
 <div class="wrapper" cdk-scrollable>
   <div
     class="b-combobox-label"
-    [class.active] = "isVisiblePopup$ | async"
-    tabindex="0"
     (click)="openPopup()"
+    (keydown.enter)="openPopup()"
+    (keydown.arrowDown)="openPopup()"
+    tabindex="0"
     #label
   >
     {{((selectedItem$ | async)?.name) || 'Placeholder'}}
@@ -11,17 +12,16 @@
 </div>
 
 <ng-template #popup>
-  <div class="b-popup" cdkTrapFocus>
-    <div>Overlay inner</div>
-    <div>
-      <input
-        type="text"
-        [formControl]="searchField"
-        (keydown.arrowDown)="itemsList.next()"
-        (keydown.arrowUp)="itemsList.prev()"
-        (keydown.enter)="onSelect()"
-      >
-    </div>
+  <div class="b-combobox-popup" cdkTrapFocus>
+    <input
+      class="b-combobox-search"
+      type="text"
+      [formControl]="searchField"
+      (keydown.arrowDown)="itemsList.next()"
+      (keydown.arrowUp)="itemsList.prev()"
+      (keydown.enter)="onSelect()"
+      (keydown.escape)="closePopup()"
+    >
     <b-items-list
       [items]="items"
       [searchPhrase]="searchField.value"

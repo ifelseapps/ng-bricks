@@ -2,8 +2,10 @@
 
 .b-combobox-label {
   display: inline-flex;
+  padding: 0.2em;
+  cursor: pointer;
   &:focus {
-    outline: none;
+    outline: solid 1px #E91E63;
   }
 
   &.active {
@@ -19,9 +21,23 @@
   height: 100%;
 }
 
-.b-popup {
+.b-combobox-popup {
   position: relative;
   width: 100%;
   z-index: 1;
-  background: beige;
+  background: #FCE4EC;
+}
+
+.b-combobox-search {
+  display: block;
+  width: 100%;
+  padding: 0.6em;
+  box-sizing: border-box;
+  border: none;
+  background: #FCE4EC;
+  color: #880E4F;
+
+  &:focus {
+    outline: solid 1px #E91E63;
+  }
 }

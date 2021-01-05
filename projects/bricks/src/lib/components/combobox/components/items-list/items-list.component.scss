@@ -1,4 +1,16 @@
 .b-combobox-list {
+  margin: 0;
+  padding: 0;
   max-height: 150px;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #F06292 transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #F06292;
+  }
 }
