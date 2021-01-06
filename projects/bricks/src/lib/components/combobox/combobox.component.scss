@@ -26,9 +26,12 @@
   width: 100%;
   z-index: 1;
   background: #FCE4EC;
+  border: solid 1px #E91E63;
+  border-top: none;
 }
 
 .b-combobox-search {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0.6em;
@@ -36,6 +39,7 @@
   border: none;
   background: #FCE4EC;
   color: #880E4F;
+  z-index: 2;
 
   &:focus {
     outline: solid 1px #E91E63;
