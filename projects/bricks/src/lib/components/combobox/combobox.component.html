@@ -26,6 +26,7 @@
       [items]="items"
       [searchPhrase]="searchField.value"
       [selected]="selectedItem$ | async"
+      [itemTemplate]="itemTemplate?.templateRef"
       (changeActiveItem)="onChangeActiveItem($event)"
       (selectItem)="onSelect($event)"
       #itemsList

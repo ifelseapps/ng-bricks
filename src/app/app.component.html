@@ -2,6 +2,13 @@
   <h1>Test</h1>
 
   <div style="margin: 200px">
-    <b-combobox></b-combobox>
+    <b-combobox>
+      <ng-template bComboboxItem let-item>
+        <div style="display: flex;">
+          <div style="width: 1em;height: 1em;margin-right: 0.5em; border-radius: 100%; background: pink;"></div>
+          <div>{{item.name}}</div>
+        </div>
+      </ng-template>
+    </b-combobox>
   </div>
 </div>

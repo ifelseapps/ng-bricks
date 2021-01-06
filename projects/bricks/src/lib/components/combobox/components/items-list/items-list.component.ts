@@ -8,7 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  QueryList,
+  QueryList, TemplateRef,
   ViewChildren
 } from '@angular/core';
 import { ItemComponent } from '../item/item.component';
@@ -32,6 +32,9 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   searchPhrase: string;
+
+  @Input()
+  itemTemplate?: TemplateRef<IItem>;
 
   /**
    * Событие вызывается при навигации по списку

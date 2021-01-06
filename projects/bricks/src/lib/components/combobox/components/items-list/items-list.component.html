@@ -6,6 +6,10 @@
     [item]="item"
     b-item
   >
-    {{item}}
+    <ng-container *ngTemplateOutlet="itemTemplate || itemTemplateDefault; context: { $implicit: item }"></ng-container>
   </li>
 </ul>
+
+<ng-template #itemTemplateDefault let-item>
+  {{item.name}}
+</ng-template>

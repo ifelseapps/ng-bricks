@@ -1,6 +1,7 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
+  Component, ContentChild,
   ElementRef,
   EventEmitter,
   OnDestroy,
@@ -16,6 +17,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { FormControl } from '@angular/forms';
+import { ComboboxItemDirective } from './directives/combobox-item.directive';
 
 @Component({
   selector: 'b-combobox',
@@ -35,6 +37,9 @@ export class ComboboxComponent implements OnInit, OnDestroy {
 
   @ViewChild('popup', { static: true })
   popupRef: TemplateRef<any>;
+
+  @ContentChild(ComboboxItemDirective, { static: true })
+  itemTemplate: ComboboxItemDirective;
 
   isVisiblePopup$: Observable<boolean>;
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
