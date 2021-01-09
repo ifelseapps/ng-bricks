@@ -1,0 +1,14 @@
+{
+  "selector": "b-combobox",
+  "api": {
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "selectItem",
+        "type": "EventEmitter<string>",
+        "description": null
+      }
+    ],
+    "methods": []
+  }
+}

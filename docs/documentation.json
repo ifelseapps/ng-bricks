@@ -1,0 +1,683 @@
+{
+	"id": 0,
+	"name": "ng-bricks",
+	"kind": 0,
+	"kindString": "Project",
+	"flags": {},
+	"originalName": "",
+	"children": [
+		{
+			"id": 1,
+			"name": "ComboboxComponent",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {},
+			"decorators": [
+				{
+					"name": "Component",
+					"type": {
+						"type": "reference",
+						"name": "Component"
+					},
+					"arguments": {
+						"obj": "{\r\n  selector: 'b-combobox',\r\n  templateUrl: './combobox.component.html',\r\n  styleUrls: ['./combobox.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n  encapsulation: ViewEncapsulation.None,\r\n}"
+					}
+				}
+			],
+			"children": [
+				{
+					"id": 2,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 3,
+							"name": "new ComboboxComponent",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 4,
+									"name": "_overlay",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Overlay"
+									}
+								},
+								{
+									"id": 5,
+									"name": "_viewContainerRef",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "ViewContainerRef"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 1,
+								"name": "ComboboxComponent"
+							}
+						}
+					]
+				},
+				{
+					"id": 16,
+					"name": "_overlayRef",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 69,
+							"character": 21
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "OverlayRef"
+					}
+				},
+				{
+					"id": 15,
+					"name": "activeItem",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 68,
+							"character": 20
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "literal",
+								"value": null
+							},
+							{
+								"type": "reference",
+								"name": "IItem"
+							}
+						]
+					},
+					"defaultValue": "null"
+				},
+				{
+					"id": 10,
+					"name": "isVisiblePopup$",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 44,
+							"character": 17
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						],
+						"name": "Observable"
+					}
+				},
+				{
+					"id": 9,
+					"name": "itemTemplate",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"decorators": [
+						{
+							"name": "ContentChild",
+							"type": {
+								"type": "reference",
+								"name": "ContentChild"
+							},
+							"arguments": {
+								"selector": "ComboboxItemDirective",
+								"opts": "{ static: true }"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 42,
+							"character": 14
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "ComboboxItemDirective"
+					}
+				},
+				{
+					"id": 12,
+					"name": "items",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 46,
+							"character": 7
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"name": "IItem"
+						}
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 7,
+					"name": "labelRef",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"decorators": [
+						{
+							"name": "ViewChild",
+							"type": {
+								"type": "reference",
+								"name": "ViewChild"
+							},
+							"arguments": {
+								"selector": "'label'",
+								"opts": "{ static: true }"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 36,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "reference",
+								"name": "HTMLElement"
+							}
+						],
+						"name": "ElementRef"
+					}
+				},
+				{
+					"id": 14,
+					"name": "masterSubscription",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 67,
+							"character": 28
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Subscription"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 8,
+					"name": "popupRef",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"decorators": [
+						{
+							"name": "ViewChild",
+							"type": {
+								"type": "reference",
+								"name": "ViewChild"
+							},
+							"arguments": {
+								"selector": "'popup'",
+								"opts": "{ static: true }"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 39,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "any"
+							}
+						],
+						"name": "TemplateRef"
+					}
+				},
+				{
+					"id": 13,
+					"name": "searchField",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 65,
+							"character": 13
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "FormControl"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 6,
+					"name": "selectItem",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"decorators": [
+						{
+							"name": "Output",
+							"type": {
+								"type": "reference",
+								"name": "Output"
+							},
+							"arguments": {}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 33,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "string"
+							}
+						],
+						"name": "EventEmitter"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 11,
+					"name": "selectedItem$",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 45,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "union",
+								"types": [
+									{
+										"type": "literal",
+										"value": null
+									},
+									{
+										"type": "reference",
+										"name": "IItem"
+									}
+								]
+							}
+						],
+						"name": "BehaviorSubject"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 29,
+					"name": "closePopup",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 133,
+							"character": 12
+						}
+					],
+					"signatures": [
+						{
+							"id": 30,
+							"name": "closePopup",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 19,
+					"name": "ngOnDestroy",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 74,
+							"character": 13
+						}
+					],
+					"signatures": [
+						{
+							"id": 20,
+							"name": "ngOnDestroy",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 17,
+					"name": "ngOnInit",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 71,
+							"character": 10
+						}
+					],
+					"signatures": [
+						{
+							"id": 18,
+							"name": "ngOnInit",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 21,
+					"name": "onChangeActiveItem",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 78,
+							"character": 20
+						}
+					],
+					"signatures": [
+						{
+							"id": 22,
+							"name": "onChangeActiveItem",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 23,
+									"name": "item",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IItem"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 24,
+					"name": "onSelect",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 82,
+							"character": 10
+						}
+					],
+					"signatures": [
+						{
+							"id": 25,
+							"name": "onSelect",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 26,
+									"name": "item",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"name": "IItem"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 27,
+					"name": "openPopup",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 91,
+							"character": 11
+						}
+					],
+					"signatures": [
+						{
+							"id": 28,
+							"name": "openPopup",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 31,
+					"name": "setSelectedItem",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "combobox.component.ts",
+							"line": 138,
+							"character": 25
+						}
+					],
+					"signatures": [
+						{
+							"id": 32,
+							"name": "setSelectedItem",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 33,
+									"name": "item",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IItem"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						2
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						16,
+						15,
+						10,
+						9,
+						12,
+						7,
+						14,
+						8,
+						13,
+						6,
+						11
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						29,
+						19,
+						17,
+						21,
+						24,
+						27,
+						31
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "combobox.component.ts",
+					"line": 29,
+					"character": 30
+				}
+			],
+			"implementedTypes": [
+				{
+					"type": "reference",
+					"name": "OnInit"
+				},
+				{
+					"type": "reference",
+					"name": "OnDestroy"
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Classes",
+			"kind": 128,
+			"children": [
+				1
+			]
+		}
+	]
+}
