@@ -9,3 +9,10 @@
     </tr>
   </table>
 </ng-container>
+
+<ng-container *ngIf="(demo$ | async) as demo">
+  <h2>Demo</h2>
+  <div class="demo">
+    <ng-container *ngComponentOutlet="demo"></ng-container>
+  </div>
+</ng-container>

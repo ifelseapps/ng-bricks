@@ -8,12 +8,14 @@ import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { ComponentDetailsComponent } from './components/component-details/component-details.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ComboboxExampleComponent } from './examples/combobox-example/combobox-example.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    ComponentDetailsComponent
+    ComponentDetailsComponent,
+    ComboboxExampleComponent
   ],
   imports: [
     HttpClientModule,

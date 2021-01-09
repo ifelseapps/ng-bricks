@@ -1,5 +1,5 @@
-<ul *ngIf="(components$ | async) as components">
+<ul>
   <li *ngFor="let comp of components">
-    <a [routerLink]="'components/' + comp.selector">{{comp.title}}</a>
+    <a [routerLink]="'components/' + comp.selector">{{comp.name}}</a>
   </li>
 </ul>

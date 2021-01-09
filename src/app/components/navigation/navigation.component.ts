@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-const COMPONENTS: Array<{ title: string, selector: string }> = [
-  { title: 'Combobox', selector: 'b-combobox' },
-];
+import { ComponentsService } from '../../services/components.service';
 
 @Component({
   selector: 'app-navigation',
@@ -12,10 +9,10 @@ const COMPONENTS: Array<{ title: string, selector: string }> = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent implements OnInit {
-  constructor() {
+  constructor(private _componentsService: ComponentsService) {
   }
 
-  readonly components$ = new BehaviorSubject(COMPONENTS);
+  readonly components = this._componentsService.getComponents();
 
   ngOnInit(): void {
   }
