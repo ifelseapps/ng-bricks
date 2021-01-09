@@ -1,3 +1,4 @@
+const rimraf = require('rimraf');
 const TypeDoc = require('typedoc');
 const typedocParser = require('@ifelseapps/typedoc-json-angular-parser');
 
@@ -17,6 +18,7 @@ async function main() {
 
     const json = require(`../${outputDir}/documentation.json`);
     typedocParser.parse(json, { outputDir: './src/assets/components-api' });
+    rimraf(outputDir, () => {});
   }
 }
 
