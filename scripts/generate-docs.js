@@ -16,7 +16,7 @@ async function main() {
     await app.generateJson(project, outputDir + '/documentation.json');
 
     const json = require(`../${outputDir}/documentation.json`);
-    typedocParser.parse(json, { outputDir: '../../../src/assets/components-api' });
+    typedocParser.parse(json, { outputDir: './src/assets/components-api' });
   }
 }
 
