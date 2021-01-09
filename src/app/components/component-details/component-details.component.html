@@ -1,0 +1,11 @@
+<h1>{{selector$ | async}}</h1>
+
+<ng-container *ngIf="(api$ | async) as api">
+  <table *ngIf="api.outputs" style="width: 100%">
+    <tr *ngFor="let output of api.outputs">
+      <td>{{output.name}}</td>
+      <td>{{output.type}}</td>
+      <td>{{output.description}}</td>
+    </tr>
+  </table>
+</ng-container>
