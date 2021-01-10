@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run generate-docs && ng serve",
-    "build": "ng build --prod --base-href /ng-bricks",
+    "build": "npm run generate-docs && ng build --prod --base-href /ng-bricks",
     "build:bricks": "ng build bricks",
     "test": "ng test",
     "lint": "ng lint",
