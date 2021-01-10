@@ -1,7 +1,28 @@
 {
   "selector": "b-combobox",
   "api": {
-    "inputs": [],
+    "inputs": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": null
+      },
+      {
+        "name": "searchPlaceholder",
+        "type": "string",
+        "description": null
+      },
+      {
+        "name": "selected",
+        "type": "string",
+        "description": null
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "description": null
+      }
+    ],
     "outputs": [
       {
         "name": "selectItem",

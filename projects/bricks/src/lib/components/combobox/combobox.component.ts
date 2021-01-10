@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component, ContentChild,
   ElementRef,
-  EventEmitter,
+  EventEmitter, Input,
   OnDestroy,
   OnInit,
   Output,
@@ -28,6 +28,18 @@ import { ComboboxItemDirective } from './directives/combobox-item.directive';
 })
 export class ComboboxComponent implements OnInit, OnDestroy {
   constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef) { }
+
+  @Input()
+  placeholder: string;
+
+  @Input()
+  searchPlaceholder: string;
+
+  @Input()
+  selected: string;
+
+  @Input()
+  width: string;
 
   @Output()
   selectItem = new EventEmitter<string>();

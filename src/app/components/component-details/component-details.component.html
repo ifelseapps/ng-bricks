@@ -12,7 +12,15 @@
 
   <ng-container *ngIf="(api$ | async) as api ">
     <div class="api-group">
+      <app-api-block title="Inputs" [api]="api.inputs"></app-api-block>
+    </div>
+
+    <div class="api-group">
       <app-api-block title="Outputs" [api]="api.outputs"></app-api-block>
+    </div>
+
+    <div class="api-group">
+      <app-api-block title="Methods" [api]="api.methods"></app-api-block>
     </div>
   </ng-container>
 
