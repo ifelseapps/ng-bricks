@@ -1,4 +1,5 @@
 const rimraf = require('rimraf');
+const fs = require('fs');
 const TypeDoc = require('typedoc');
 const typedocParser = require('@ifelseapps/typedoc-json-angular-parser');
 
@@ -14,6 +15,9 @@ async function main() {
 
   if (project) {
     const outputDir = 'docs';
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir);
+    }
     await app.generateJson(project, outputDir + '/documentation.json');
 
     const json = require(`../${outputDir}/documentation.json`);
