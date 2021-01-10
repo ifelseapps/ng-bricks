@@ -1,0 +1,24 @@
+@import "tokens";
+
+.menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-item {
+}
+
+.menu-link {
+  display: block;
+  padding: 0.5em 1em;
+  color: inherit;
+  text-decoration: none;
+  &.active {
+    background: $primary-200;
+  }
+}
+
+.selector {
+  color: $gray-500;
+}

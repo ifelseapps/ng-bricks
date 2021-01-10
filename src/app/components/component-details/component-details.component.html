@@ -1,6 +1,6 @@
 <h1>{{selector$ | async}}</h1>
 
-<ng-container *ngIf="(api$ | async) as api">
+<ng-container *ngIf="(api$ | async) as api; else empty;">
   <table *ngIf="api.outputs" style="width: 100%">
     <tr *ngFor="let output of api.outputs">
       <td>{{output.name}}</td>
@@ -16,3 +16,7 @@
     <ng-container *ngComponentOutlet="demo"></ng-container>
   </div>
 </ng-container>
+
+<ng-template #empty>
+  Выберите компонент
+</ng-template>

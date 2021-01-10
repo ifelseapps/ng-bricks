@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+}
+
+.navigation {
+  width: 200px;
+  height: 100vh;
+  overflow: auto;
+}
+
+.details {
+  flex: auto;
+  margin-left: 1em;
+}
