@@ -41,6 +41,9 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   @Input()
   width: string;
 
+  @Input()
+  disabled: boolean;
+
   @Output()
   selectItem = new EventEmitter<string>();
 
