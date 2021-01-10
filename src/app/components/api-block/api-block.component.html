@@ -1,0 +1,21 @@
+<ng-container *ngIf="api">
+  <h2 class="title">{{title}}</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="table-cell table-cell-header">Название</th>
+        <th class="table-cell table-cell-header">Тип</th>
+        <th class="table-cell table-cell-header">Комментарий</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of api">
+        <td class="table-cell">{{item.name}}</td>
+        <td class="table-cell">
+          <code class="code">{{item.type}}</code>
+        </td>
+        <td class="table-cell">{{item.description}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

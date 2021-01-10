@@ -9,13 +9,15 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ComponentDetailsComponent } from './components/component-details/component-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ComboboxExampleComponent } from './examples/combobox-example/combobox-example.component';
+import { ApiBlockComponent } from './components/api-block/api-block.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     ComponentDetailsComponent,
-    ComboboxExampleComponent
+    ComboboxExampleComponent,
+    ApiBlockComponent
   ],
   imports: [
     HttpClientModule,

@@ -1,0 +1,24 @@
+@import "tokens";
+
+.title {
+  margin: 0 0 0.5em;
+  font-weight: 400;
+  font-size: 1.8rem;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-cell {
+  padding: 0.2em 0.5em;
+  border: solid 1px $gray-500;
+  text-align: left;
+}
+
+.table-cell-header {
+  font-weight: 700;
+}

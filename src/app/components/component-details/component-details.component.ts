@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, Type } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ComponentsService } from '../../services/components.service';
+import { ComponentsService, IComponentApi, IComponentDescription } from '../../services/components.service';
 
 @Component({
   selector: 'app-component-details',
@@ -14,28 +13,32 @@ import { ComponentsService } from '../../services/components.service';
 export class ComponentDetailsComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _http: HttpClient,
     private _componentsService: ComponentsService,
   ) {
   }
 
   selector$ = this._activatedRoute.params.pipe(map(params => params.id));
-  api$: Observable<any>;
+  api$: Observable<IComponentApi['api']>;
   demo$: Observable<Type<unknown> | null>;
+  description$: Observable<IComponentDescription | null>;
 
   ngOnInit(): void {
-    // TODO: перенести в сервис и типизировать
+    this.description$ = this.selector$
+      .pipe(
+        map(selector => this._componentsService.getComponentDetailsBySelector(selector))
+      );
+
     this.api$ = this.selector$
       .pipe(
-        switchMap(selector => this._http.get(`/assets/components-api/${selector}.json`)),
-        map((data: any) => data.api)
+        switchMap(selector => this._componentsService.getComponentApiBySelector(selector)),
+        map(data => data.api)
       );
 
     this.demo$ = this.selector$
       .pipe(
         map(selector => {
           const details = this._componentsService.getComponentDetailsBySelector(selector);
-          if (details) {
+          if (details && details.component) {
             return details.component;
           }
           return null;

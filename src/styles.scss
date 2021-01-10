@@ -1,6 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tokens";
+
+html {
+  font-size: 14px;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+}
+
+.code {
+  display: inline-flex;
+  padding: 0 0.2em;
+  border-radius: 3px;
+  background: $inlineCodeBackground;
+  color: $inlineCodeColor;
 }

@@ -1,4 +1,31 @@
+@import "tokens";
+
+:host {
+  display: block;
+  width: 700px;
+}
+
+.header {
+  margin-bottom: 3em;
+}
+
 .demo {
-  width: 500px;
-  margin: auto;
+  background: #fff;
+  border: solid 1px $gray-500;
+  padding: 0.5em;
+  margin-bottom: 5em;
+}
+
+.title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 2.5em;
+  line-height: 1;
+}
+
+.api-group {
+  margin-top: 2em;
+  &:empty {
+    display: none;
+  }
 }

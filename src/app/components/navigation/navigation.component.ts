@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
   constructor(private _componentsService: ComponentsService) {
   }
 
-  readonly components = this._componentsService.getComponents();
+  readonly components = this._componentsService.getComponentsDetails();
 
   ngOnInit(): void {
   }

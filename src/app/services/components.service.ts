@@ -1,5 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { ComboboxExampleComponent } from '../examples/combobox-example/combobox-example.component';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface IComponentDescription {
   name: string;
@@ -7,9 +9,24 @@ export interface IComponentDescription {
   component: Type<unknown>;
 }
 
+export interface IApiItem {
+  name: string;
+  type: string;
+  description: string | null;
+}
+
+export interface IComponentApi {
+  selector: string;
+  api: {
+    inputs: IApiItem[];
+    outputs: IApiItem[];
+    methods: IApiItem[];
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class ComponentsService {
-  constructor() {
+  constructor(private _http: HttpClient) {
   }
 
   private _components: IComponentDescription[] = [
@@ -24,7 +41,11 @@ export class ComponentsService {
     return this._components.find(c => c.selector === selector) || null;
   }
 
-  getComponents(): IComponentDescription[] {
+  getComponentsDetails(): IComponentDescription[] {
     return this._components;
+  }
+
+  getComponentApiBySelector(selector: string): Observable<IComponentApi> {
+    return this._http.get<IComponentApi>(`/assets/components-api/${selector}.json`);
   }
 }
