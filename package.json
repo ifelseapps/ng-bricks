@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run generate-docs && ng serve",
     "build": "ng build --prod --base-href /ng-bricks",
     "build:bricks": "ng build bricks",
     "test": "ng test",
