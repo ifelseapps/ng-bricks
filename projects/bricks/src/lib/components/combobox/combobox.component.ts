@@ -37,6 +37,9 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef) { }
 
   @Input()
+  items: IItem[];
+
+  @Input()
   placeholder: string;
 
   @Input()
@@ -55,25 +58,6 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   itemTemplate: ComboboxItemDirective;
 
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
-
-  items: IItem[] = [
-    { value: '0001', name: 'item 1' },
-    { value: '0002', name: 'item 2' },
-    { value: '0003', name: 'item 3' },
-    { value: '0004', name: 'item 4' },
-    { value: '0005', name: 'item 5' },
-    { value: '0006', name: 'item 6' },
-    { value: '0007', name: 'item 7' },
-    { value: '0008', name: 'item 8' },
-    { value: '0009', name: 'item 9' },
-    { value: '00010', name: 'item 10' },
-    { value: '00113', name: 'item 11' },
-    { value: '01203', name: 'item 12' },
-    { value: '13003', name: 'item 13' },
-    { value: '00014', name: 'item 14' },
-    { value: '00153', name: 'item 15' },
-    { value: '01603', name: 'item 16' },
-  ];
 
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
