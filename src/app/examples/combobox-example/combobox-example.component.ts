@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-combobox-example',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ComboboxExampleComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _fb: FormBuilder) { }
+
+  readonly form = this._fb.group({
+    country: this._fb.control({ value: '0002', disabled: false }),
+  });
 
   ngOnInit(): void {
+    this.form.valueChanges.subscribe(values => console.log(values));
   }
 
 }

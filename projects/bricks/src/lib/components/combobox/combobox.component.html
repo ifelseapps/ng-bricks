@@ -1,7 +1,9 @@
 <div class="wrapper" cdk-scrollable>
   <div
     class="b-combobox-label"
+    [class.disabled]="isDisabled$ | async"
     (click)="openPopup()"
+    (focus)="onFocus()"
     (keydown.enter)="openPopup()"
     (keydown.arrowDown)="openPopup()"
     tabindex="0"

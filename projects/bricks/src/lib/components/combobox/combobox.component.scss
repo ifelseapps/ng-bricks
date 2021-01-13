@@ -11,6 +11,15 @@
   &.active {
     font-weight: 700;
   }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+    &:focus {
+      outline: 0;
+    }
+  }
 }
 
 .b-combobox-backdrop {

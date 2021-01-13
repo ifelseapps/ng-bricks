@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component, ContentChild,
   ElementRef,
-  EventEmitter, Input,
+  EventEmitter, forwardRef, HostBinding, Input,
   OnDestroy,
   OnInit,
   Output,
@@ -16,7 +16,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { FormControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComboboxItemDirective } from './directives/combobox-item.directive';
 
 @Component({
@@ -25,8 +25,15 @@ import { ComboboxItemDirective } from './directives/combobox-item.directive';
   styleUrls: ['./combobox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ComboboxComponent),
+      multi: true
+    }
+  ]
 })
-export class ComboboxComponent implements OnInit, OnDestroy {
+export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccessor {
   constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef) { }
 
   @Input()
@@ -36,16 +43,7 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   searchPlaceholder: string;
 
   @Input()
-  selected: string;
-
-  @Input()
   width: string;
-
-  @Input()
-  disabled: boolean;
-
-  @Output()
-  selectItem = new EventEmitter<string>();
 
   @ViewChild('label', { static: true })
   labelRef: ElementRef<HTMLElement>;
@@ -56,8 +54,8 @@ export class ComboboxComponent implements OnInit, OnDestroy {
   @ContentChild(ComboboxItemDirective, { static: true })
   itemTemplate: ComboboxItemDirective;
 
-  isVisiblePopup$: Observable<boolean>;
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
+
   items: IItem[] = [
     { value: '0001', name: 'item 1' },
     { value: '0002', name: 'item 2' },
@@ -77,17 +75,44 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     { value: '01603', name: 'item 16' },
   ];
 
-  searchField = new FormControl('');
+  readonly searchField = new FormControl('');
+  readonly isDisabled$ = new BehaviorSubject(false);
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
   private _overlayRef: OverlayRef;
+  private _onTouch: () => void;
+  private _onChange: (value: string) => void = () => {};
 
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
     this.masterSubscription.unsubscribe();
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this._onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled$.next(isDisabled);
+  }
+
+  writeValue(value: string): void {
+    const item = this.items.find(i => i.value === value);
+    if (item) {
+      this._onChange(value);
+      this.setSelectedItem(item);
+    }
+  }
+
+  onFocus(): void {
+    this._onTouch();
   }
 
   onChangeActiveItem(item: IItem): void {
@@ -98,12 +123,16 @@ export class ComboboxComponent implements OnInit, OnDestroy {
     const currentItem = item || this.activeItem;
     if (currentItem) {
       this.setSelectedItem(currentItem);
-      this.selectItem.emit(currentItem.value);
+      this._onChange(currentItem.value);
       this.closePopup();
     }
   }
 
   openPopup(): void {
+    const isDisabled = this.isDisabled$.getValue();
+    if (isDisabled) {
+      return;
+    }
     const positionStrategy = this._overlay.position()
       .flexibleConnectedTo(this.labelRef.nativeElement)
       .withPositions([

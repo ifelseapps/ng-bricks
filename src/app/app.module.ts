@@ -10,6 +10,7 @@ import { ComponentDetailsComponent } from './components/component-details/compon
 import { HttpClientModule } from '@angular/common/http';
 import { ComboboxExampleComponent } from './examples/combobox-example/combobox-example.component';
 import { ApiBlockComponent } from './components/api-block/api-block.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ApiBlockComponent } from './components/api-block/api-block.component';
     AppRoutingModule,
     BricksModule,
     CdkScrollableModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
