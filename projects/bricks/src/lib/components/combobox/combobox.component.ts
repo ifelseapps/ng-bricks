@@ -1,12 +1,12 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  Component, ContentChild,
+  Component,
+  ContentChild,
   ElementRef,
-  EventEmitter, forwardRef, HostBinding, Input,
+  forwardRef,
+  Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -18,7 +18,7 @@ import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComboboxItemDirective } from './directives/combobox-item.directive';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'b-combobox',
@@ -34,11 +34,20 @@ import { map, switchMap } from 'rxjs/operators';
     }
   ]
 })
-export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAccessor {
   constructor(private _overlay: Overlay, private _viewContainerRef: ViewContainerRef) { }
 
   @Input()
-  items: IItem[];
+  items: T[];
+
+  @Input()
+  stringify: (item: T) => string = (item => String(item));
+
+  @Input()
+  getValue: (item: T) => string = (item => String(item));
+
+  @Input()
+  filter: (item: T, phrase: string) => boolean = (() => true);
 
   @Input()
   placeholder: string;
@@ -59,7 +68,7 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   itemTemplate: ComboboxItemDirective;
 
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
-  filteredItems$: Observable<IItem[]>;
+  items$: Observable<IItem[]>;
 
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
@@ -71,14 +80,19 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   private _onChange: (value: string) => void = () => {};
 
   ngOnInit(): void {
-    this.filteredItems$ = this.searchField.valueChanges
+    this.items$ = this.searchField.valueChanges
       .pipe(
         map((searchPhrase: string) => {
           if (!searchPhrase || !searchPhrase.length) {
             return this.items;
           }
-          return this.items.filter(item => item.name.toLowerCase().includes(searchPhrase.toLowerCase()));
-        })
+          return this.items.filter(item => this.filter(item, searchPhrase));
+        }),
+        map<T[], IItem[]>(items => items.map(item => ({
+          ...item,
+          name: this.stringify(item),
+          value: this.getValue(item)
+        })))
       );
   }
 
@@ -99,10 +113,13 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   }
 
   writeValue(value: string): void {
-    const item = this.items.find(i => i.value === value);
+    const item = this.items.find(i => this.getValue(i) === value);
     if (item) {
       this._onChange(value);
-      this.setSelectedItem(item);
+      this.setSelectedItem({
+        name: this.stringify(item),
+        value: this.getValue(item)
+      });
     }
   }
 

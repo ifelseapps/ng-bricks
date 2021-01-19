@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComboboxComponent } from './combobox.component';
 
 describe('ComboboxComponent', () => {
-  let component: ComboboxComponent;
-  let fixture: ComponentFixture<ComboboxComponent>;
+  let component: ComboboxComponent<any>;
+  let fixture: ComponentFixture<ComboboxComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -25,7 +25,7 @@
       (keydown.escape)="closePopup()"
     >
     <b-items-list
-      [items]="filteredItems$ | async"
+      [items]="items$ | async"
       [selected]="selectedItem$ | async"
       [itemTemplate]="itemTemplate?.templateRef"
       (changeActiveItem)="onChangeActiveItem($event)"
