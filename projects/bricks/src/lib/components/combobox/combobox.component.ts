@@ -18,6 +18,7 @@ import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComboboxItemDirective } from './directives/combobox-item.directive';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'b-combobox',
@@ -58,6 +59,7 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   itemTemplate: ComboboxItemDirective;
 
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
+  filteredItems$: Observable<IItem[]>;
 
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
@@ -69,6 +71,15 @@ export class ComboboxComponent implements OnInit, OnDestroy, ControlValueAccesso
   private _onChange: (value: string) => void = () => {};
 
   ngOnInit(): void {
+    this.filteredItems$ = this.searchField.valueChanges
+      .pipe(
+        map((searchPhrase: string) => {
+          if (!searchPhrase || !searchPhrase.length) {
+            return this.items;
+          }
+          return this.items.filter(item => item.name.toLowerCase().includes(searchPhrase.toLowerCase()));
+        })
+      );
   }
 
   ngOnDestroy(): void {

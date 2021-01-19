@@ -31,9 +31,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
   selected: IItem;
 
   @Input()
-  searchPhrase: string;
-
-  @Input()
   itemTemplate?: TemplateRef<IItem>;
 
   /**

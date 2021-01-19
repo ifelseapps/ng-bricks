@@ -7,12 +7,11 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ItemsListComponent } from './components/combobox/components/items-list/items-list.component';
 import { ItemComponent } from './components/combobox/components/item/item.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FilterPipe } from './components/combobox/pipes/filter.pipe';
 import { ComboboxItemDirective } from './components/combobox/directives/combobox-item.directive';
 
 
 @NgModule({
-  declarations: [BricksComponent, ComboboxComponent, ItemsListComponent, ItemComponent, FilterPipe, ComboboxItemDirective],
+  declarations: [BricksComponent, ComboboxComponent, ItemsListComponent, ItemComponent, ComboboxItemDirective],
   imports: [
     OverlayModule,
     CommonModule,
