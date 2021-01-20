@@ -56,7 +56,7 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
   searchPlaceholder: string;
 
   @Input()
-  width: string;
+  width = '100%';
 
   @ViewChild('label', { static: true })
   labelRef: ElementRef<HTMLElement>;
@@ -72,6 +72,7 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
 
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
+  readonly isOpened$ = new BehaviorSubject(false);
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
@@ -171,7 +172,10 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
     });
     this._overlayRef = this._overlay.create(config);
 
-    const subscriptionBackdropClick = this._overlayRef.backdropClick().subscribe(() => this._overlayRef.dispose());
+    const subscriptionBackdropClick = this._overlayRef.backdropClick().subscribe(() => {
+      this._overlayRef.dispose();
+      this.isOpened$.next(false);
+    });
     const subscriptionOverlayAttachments = this._overlayRef.attachments().subscribe(() => {
       const searchInput = this._overlayRef.overlayElement.querySelector('input');
       if (searchInput) {
@@ -184,11 +188,13 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
     this.masterSubscription.add(subscriptionOverlayAttachments);
 
     this._overlayRef.attach(new TemplatePortal(this.popupRef, this._viewContainerRef));
+    this.isOpened$.next(true);
   }
 
   closePopup(): void {
     this._overlayRef.dispose();
     this.labelRef.nativeElement.focus();
+    this.isOpened$.next(false);
   }
 
   private setSelectedItem(item: IItem): void {

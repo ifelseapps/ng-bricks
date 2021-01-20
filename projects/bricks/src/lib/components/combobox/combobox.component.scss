@@ -1,11 +1,41 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
 
 .b-combobox-label {
-  display: inline-flex;
-  padding: 0.2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3em 0.5em;
+  border-radius: 3px;
+  border: solid 2px transparent;
   cursor: pointer;
+
   &:focus {
-    outline: solid 1px #E91E63;
+    outline: none;
+    border-color: #64B5F6;
+  }
+
+  &:hover {
+    color: #E91E63;
+  }
+
+  .b-label-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+  }
+
+  .b-label-icon {
+    flex: none;
+    margin-left: 5px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(180deg);
+    fill: currentColor;
+  }
+
+  &.opened .b-label-icon {
+    transform: rotate(0);
   }
 
   &.active {
@@ -16,6 +46,7 @@
     pointer-events: none;
     cursor: default;
     opacity: 0.5;
+
     &:focus {
       outline: 0;
     }
@@ -34,23 +65,27 @@
   position: relative;
   width: 100%;
   z-index: 1;
-  background: #FCE4EC;
-  border: solid 1px #E91E63;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.21);
   border-top: none;
 }
 
 .b-combobox-search {
   position: relative;
-  display: block;
+  display: flex;
   width: 100%;
-  padding: 0.6em;
+  height: 35px;
+  padding: 0 0.6em;
   box-sizing: border-box;
   border: none;
-  background: #FCE4EC;
-  color: #880E4F;
   z-index: 2;
 
+  &::placeholder {
+    font-size: 1rem;
+    color: lightslategray;
+  }
+
   &:focus {
-    outline: solid 1px #E91E63;
+    outline: none;
   }
 }

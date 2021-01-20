@@ -4,13 +4,13 @@
   max-height: 150px;
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: #F06292 transparent;
+  scrollbar-color: #90CAF9 transparent;
 
   &::-webkit-scrollbar {
     width: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #F06292;
+    background: #90CAF9;
   }
 }
