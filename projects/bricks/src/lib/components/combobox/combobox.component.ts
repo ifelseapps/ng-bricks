@@ -99,7 +99,12 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
   }
 
   ngOnDestroy(): void {
+    // TODO: нужна?
     this.masterSubscription.unsubscribe();
+
+    if (this._overlayRef) {
+      this._overlayRef.destroy();
+    }
   }
 
   registerOnChange(fn: (value: string) => void): void {
