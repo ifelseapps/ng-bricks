@@ -19,6 +19,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComboboxItemDirective } from './directives/combobox-item.directive';
 import { map } from 'rxjs/operators';
+import { BricksOverlayRef } from '../../classes/bricks-overlay-ref';
 
 @Component({
   selector: 'b-combobox',
@@ -76,7 +77,7 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
-  private _overlayRef: OverlayRef;
+  private _overlayRef: BricksOverlayRef;
   private _onTouch: () => void;
   private _onChange: (value: string) => void = () => {};
 
@@ -146,6 +147,31 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
     if (isDisabled) {
       return;
     }
+    const ref = this._overlay.create(this.getOverlayConfig());
+    this._overlayRef = BricksOverlayRef.create(ref);
+    this._overlayRef.open(
+      new TemplatePortal(this.popupRef, this._viewContainerRef),
+      (overlayElement) => this.onAfterOpen(overlayElement)
+    );
+  }
+
+  closePopup(): void {
+    this._overlayRef.close(() => this.onAfterClose());
+  }
+
+  private onAfterOpen(overlayElement: HTMLElement): void {
+    const searchInput = overlayElement.querySelector('input');
+    if (searchInput) {
+      this.searchField.setValue('');
+      searchInput.focus();
+    }
+  }
+
+  private onAfterClose(): void {
+    this.labelRef.nativeElement.focus();
+  }
+
+  private getOverlayConfig(): OverlayConfig {
     const positionStrategy = this._overlay.position()
       .flexibleConnectedTo(this.labelRef.nativeElement)
       .withPositions([
@@ -163,38 +189,14 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
         }
       ]);
 
-    const config = new OverlayConfig({
+    return new OverlayConfig({
+      // TODO: передавать ширину через Input()
       width: 300,
       hasBackdrop: true,
       backdropClass: 'b-combobox-backdrop',
       positionStrategy,
       scrollStrategy: this._overlay.scrollStrategies.reposition(),
     });
-    this._overlayRef = this._overlay.create(config);
-
-    const subscriptionBackdropClick = this._overlayRef.backdropClick().subscribe(() => {
-      this._overlayRef.dispose();
-      this.isOpened$.next(false);
-    });
-    const subscriptionOverlayAttachments = this._overlayRef.attachments().subscribe(() => {
-      const searchInput = this._overlayRef.overlayElement.querySelector('input');
-      if (searchInput) {
-        this.searchField.setValue('');
-        searchInput.focus();
-      }
-    });
-
-    this.masterSubscription.add(subscriptionBackdropClick);
-    this.masterSubscription.add(subscriptionOverlayAttachments);
-
-    this._overlayRef.attach(new TemplatePortal(this.popupRef, this._viewContainerRef));
-    this.isOpened$.next(true);
-  }
-
-  closePopup(): void {
-    this._overlayRef.dispose();
-    this.labelRef.nativeElement.focus();
-    this.isOpened$.next(false);
   }
 
   private setSelectedItem(item: IItem): void {
