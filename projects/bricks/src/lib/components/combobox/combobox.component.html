@@ -2,7 +2,7 @@
   <div
     class="b-combobox-label"
     [class.disabled]="isDisabled$ | async"
-    [class.opened]="isOpened$ | async"
+    [class.opened]="overlayRef?.isOpened$ | async"
     (click)="openPopup()"
     (focus)="onFocus()"
     (keydown.enter)="openPopup()"

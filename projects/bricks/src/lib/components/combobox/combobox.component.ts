@@ -70,14 +70,13 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
 
   selectedItem$ = new BehaviorSubject<IItem | null>(null);
   items$: Observable<IItem[]>;
+  overlayRef: BricksOverlayRef;
 
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
-  readonly isOpened$ = new BehaviorSubject(false);
 
   private masterSubscription = new Subscription();
   private activeItem: IItem | null = null;
-  private _overlayRef: BricksOverlayRef;
   private _onTouch: () => void;
   private _onChange: (value: string) => void = () => {};
 
@@ -102,8 +101,8 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
     // TODO: нужна?
     this.masterSubscription.unsubscribe();
 
-    if (this._overlayRef) {
-      this._overlayRef.destroy();
+    if (this.overlayRef) {
+      this.overlayRef.destroy();
     }
   }
 
@@ -153,15 +152,15 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
       return;
     }
     const ref = this._overlay.create(this.getOverlayConfig());
-    this._overlayRef = BricksOverlayRef.create(ref);
-    this._overlayRef.open(
+    this.overlayRef = BricksOverlayRef.create(ref);
+    this.overlayRef.open(
       new TemplatePortal(this.popupRef, this._viewContainerRef),
       (overlayElement) => this.onAfterOpen(overlayElement)
     );
   }
 
   closePopup(): void {
-    this._overlayRef.close(() => this.onAfterClose());
+    this.overlayRef.close(() => this.onAfterClose());
   }
 
   private onAfterOpen(overlayElement: HTMLElement): void {
