@@ -12,14 +12,18 @@ import {
   ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { IItem } from './models/item';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComboboxItemDirective } from './directives/combobox-item.directive';
 import { map } from 'rxjs/operators';
 import { BricksOverlayRef } from '../../classes/bricks-overlay-ref';
+
+
+const stringifyDefault = <T>(item: T): string => String(item);
+const filterDefault = () => true;
 
 @Component({
   selector: 'b-combobox',
@@ -42,13 +46,13 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
   items: T[];
 
   @Input()
-  stringify: (item: T) => string = (item => String(item));
+  stringify: (item: T) => string = stringifyDefault;
 
   @Input()
-  getValue: (item: T) => string = (item => String(item));
+  getValue: (item: T) => string = stringifyDefault;
 
   @Input()
-  filter: (item: T, phrase: string) => boolean = (() => true);
+  filter: (item: T, phrase: string) => boolean = filterDefault;
 
   @Input()
   placeholder: string;
@@ -58,6 +62,9 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
 
   @Input()
   width = '100%';
+
+  @Input()
+  widthPopup: string | number = 300;
 
   @ViewChild('label', { static: true })
   labelRef: ElementRef<HTMLElement>;
@@ -75,58 +82,26 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
   readonly searchField = new FormControl('');
   readonly isDisabled$ = new BehaviorSubject(false);
 
-  private masterSubscription = new Subscription();
-  private activeItem: IItem | null = null;
+  private _activeItem: IItem | null = null;
   private _onTouch: () => void;
   private _onChange: (value: string) => void = () => {};
 
   ngOnInit(): void {
-    this.items$ = this.searchField.valueChanges
-      .pipe(
-        map((searchPhrase: string) => {
-          if (!searchPhrase || !searchPhrase.length) {
-            return this.items;
-          }
-          return this.items.filter(item => this.filter(item, searchPhrase));
-        }),
-        map<T[], IItem[]>(items => items.map(item => ({
-          ...item,
-          name: this.stringify(item),
-          value: this.getValue(item)
-        })))
-      );
+    this.initItems();
   }
 
   ngOnDestroy(): void {
-    // TODO: нужна?
-    this.masterSubscription.unsubscribe();
-
     if (this.overlayRef) {
       this.overlayRef.destroy();
     }
   }
 
-  registerOnChange(fn: (value: string) => void): void {
-    this._onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this._onTouch = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.isDisabled$.next(isDisabled);
-  }
-
-  writeValue(value: string): void {
-    const item = this.items.find(i => this.getValue(i) === value);
-    if (item) {
-      this._onChange(value);
-      this.setSelectedItem({
-        name: this.stringify(item),
-        value: this.getValue(item)
-      });
-    }
+  private initItems(): void {
+    this.items$ = this.searchField.valueChanges
+      .pipe(
+        map((searchPhrase: string) => searchPhrase ? this.items.filter(item => this.filter(item, searchPhrase)) : this.items),
+        map<T[], IItem[]>(items => items.map(item => this.createItem(item)))
+      );
   }
 
   onFocus(): void {
@@ -134,11 +109,11 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
   }
 
   onChangeActiveItem(item: IItem): void {
-    this.activeItem = item;
+    this._activeItem = item;
   }
 
   onSelect(item?: IItem): void {
-    const currentItem = item || this.activeItem;
+    const currentItem = item || this._activeItem;
     if (currentItem) {
       this.setSelectedItem(currentItem);
       this._onChange(currentItem.value);
@@ -194,13 +169,40 @@ export class ComboboxComponent<T> implements OnInit, OnDestroy, ControlValueAcce
       ]);
 
     return new OverlayConfig({
-      // TODO: передавать ширину через Input()
-      width: 300,
+      width: this.widthPopup,
       hasBackdrop: true,
       backdropClass: 'b-combobox-backdrop',
       positionStrategy,
       scrollStrategy: this._overlay.scrollStrategies.reposition(),
     });
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this._onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled$.next(isDisabled);
+  }
+
+  writeValue(value: string): void {
+    const item = this.items.find(i => this.getValue(i) === value);
+    if (item) {
+      this._onChange(value);
+      this.setSelectedItem(this.createItem(item));
+    }
+  }
+
+  private createItem(src: T): IItem {
+    return {
+      ...src,
+      name: this.stringify(src),
+      value: this.getValue(src),
+    };
   }
 
   private setSelectedItem(item: IItem): void {
