@@ -6,14 +6,15 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
-  QueryList, TemplateRef,
+  QueryList,
+  TemplateRef,
   ViewChildren
 } from '@angular/core';
 import { ItemComponent } from '../item/item.component';
 import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { IItem } from '../../models/item';
+import { untilDestroyed } from '@orchestrator/ngx-until-destroyed';
 
 @Component({
   selector: 'b-items-list',
@@ -21,7 +22,7 @@ import { IItem } from '../../models/item';
   styleUrls: ['./items-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ItemsListComponent implements AfterViewInit, OnDestroy {
   constructor(private _cdr: ChangeDetectorRef) { }
 
   @Input()
@@ -49,9 +50,6 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
   children: QueryList<ItemComponent>;
 
   private _keyManager: ActiveDescendantKeyManager<ItemComponent>;
-
-  ngOnInit(): void {
-  }
 
   ngAfterViewInit(): void {
     this.initKeyManager();
@@ -85,23 +83,23 @@ export class ItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initKeyManager(): void {
-    this.children.changes.subscribe((children: QueryList<ItemComponent>) => {
+    this.children.changes.pipe(untilDestroyed(this)).subscribe((children: QueryList<ItemComponent>) => {
       if (!children.first) {
         return;
       }
-      const item = this.selected ? children.find(c => c.item.value === this.selected.value) || children.first : children.first;
+      const item = this.getSelectedItem(children);
       this._keyManager.setActiveItem(item);
       this.onChangeActiveItem(item.item);
       this._cdr.detectChanges();
     });
 
     this._keyManager = new ActiveDescendantKeyManager<ItemComponent>(this.children).withWrap();
-    this.onChangeActiveItem(this.selected || this.items[0]);
-    if (this.selected) {
-      const item = this.children.find(c => c.item.value === this.selected.value) || this.children.first;
-      this._keyManager.setActiveItem(item);
-      return;
+  }
+
+  private getSelectedItem(children: QueryList<ItemComponent>): ItemComponent {
+    if (!this.selected) {
+      return children.first;
     }
-    this._keyManager.setFirstItemActive();
+    return children.find(c => c.item.value === this.selected.value) || children.first;
   }
 }

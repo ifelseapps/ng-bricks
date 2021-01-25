@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { Highlightable } from '@angular/cdk/a11y';
 import { IItem } from '../../models/item';
 
@@ -18,7 +9,7 @@ import { IItem } from '../../models/item';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ItemComponent implements OnInit, Highlightable {
+export class ItemComponent implements Highlightable {
   constructor(private _cdr: ChangeDetectorRef, private _elementRef: ElementRef<HTMLLIElement>) { }
 
   @Input()
@@ -31,7 +22,8 @@ export class ItemComponent implements OnInit, Highlightable {
     return this._active;
   }
 
-  ngOnInit(): void {
+  getLabel(): string {
+    return this.item.name;
   }
 
   setActiveStyles(): void {
@@ -43,10 +35,6 @@ export class ItemComponent implements OnInit, Highlightable {
 
   setInactiveStyles(): void {
     this.setActive(false);
-  }
-
-  getLabel(): string {
-    return this.item.name;
   }
 
   private setActive(value: boolean): void {
