@@ -1,5 +1,7 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
 
+.b-combobox {}
+
 .b-combobox-label {
   display: flex;
   justify-content: space-between;
@@ -18,14 +20,14 @@
     color: #E91E63;
   }
 
-  .b-label-text {
+  &__text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1;
   }
 
-  .b-label-icon {
+  &__icon {
     flex: none;
     margin-left: 5px;
     width: 16px;
@@ -34,15 +36,11 @@
     fill: currentColor;
   }
 
-  &.opened .b-label-icon {
+  &_opened &__icon {
     transform: rotate(0);
   }
 
-  &.active {
-    font-weight: 700;
-  }
-
-  &.disabled {
+  &_disabled {
     pointer-events: none;
     cursor: default;
     opacity: 0.5;
@@ -82,7 +80,7 @@
 
   &::placeholder {
     font-size: 1rem;
-    color: lightslategray;
+    color: #BDBDBD;
   }
 
   &:focus {

@@ -17,7 +17,7 @@ export class ItemComponent implements Highlightable {
 
   private _active = false;
 
-  @HostBinding('class.b-combobox-list-item-active')
+  @HostBinding('class.b-combobox-list__item_active')
   get active(): boolean {
     return this._active;
   }
