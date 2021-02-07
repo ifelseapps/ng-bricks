@@ -1,6 +1,8 @@
-<ul class="b-combobox-list">
+<ul class="b-combobox-list" role="listbox">
   <li
     class="b-combobox-list__item"
+    role="option"
+    [attr.aria-selected]="item.value === active?.value ? 'true' : 'false'"
     *ngFor="let item of items"
     (click)="onSelect(item)"
     [item]="item"

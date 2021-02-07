@@ -49,6 +49,8 @@ export class ItemsListComponent implements AfterViewInit, OnDestroy {
   @ViewChildren(ItemComponent)
   children: QueryList<ItemComponent>;
 
+  active: IItem | null = null;
+
   private _keyManager: ActiveDescendantKeyManager<ItemComponent>;
 
   ngAfterViewInit(): void {
@@ -75,6 +77,7 @@ export class ItemsListComponent implements AfterViewInit, OnDestroy {
   }
 
   onChangeActiveItem(item: IItem): void {
+    this.active = item;
     this.changeActiveItem.emit(item);
   }
 

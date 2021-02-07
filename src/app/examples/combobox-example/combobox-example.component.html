@@ -7,7 +7,7 @@
     formControlName="country"
   >
     <ng-template bComboboxItem let-item>
-      ({{item.icon}}) {{item.name}}
+      <span aria-hidden="true">({{item.icon}})</span> {{item.name}}
     </ng-template>
   </b-combobox>
 </div>
