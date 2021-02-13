@@ -1,6 +1,9 @@
 .b-combobox-list__item {
   padding: 0.5em 1em;
   cursor: pointer;
+  &:not(&_active):hover {
+    color: #E91E63;
+  }
 }
 
 .b-combobox-list__item_active {
